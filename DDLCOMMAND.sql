@@ -32,10 +32,11 @@ create table User
   date_of_purchase date not null,
   address_id INT,
   meter_reading INT,
-  for_sale bool,
-  for_rent bool,
+  status ENUM ('Available','Not available')DEFAULT 'Not available',
   price int,
-  license_plate_num varchar(20) not null unique
+  license_plate_num varchar(20) not null unique,
+  primary key(license_plate_num),
+  foreign key(address_id) references address(_id)
   );
   create table bookingdet(
    booking_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -43,18 +44,25 @@ create table User
    meter_read int,
    discount_amm int,
    security_dep int not null,
-   net_amount int not null
+   net_amount int not null,
+   reg_num varchar(20),
+   adhar_number varchar(20) not null,
+   foreign key(adhar_number) references user(adhar_num),
+   foreign key(reg_num) references cardb(license_plate_num)
    );
    create table billing(
    _id int primary key auto_increment,
-   bill_id int not null,
    total int not null,
    bill_amount int not null,
    tax_amount int not null,
    disc_amount int not null,
    adv_payment int not null,
-   bill_date date
+   bill_date date,
+   book_id int,
+   foreign key(book_id) references bookingdet(booking_id)
+   );
    
-   )
-  
+ 
+ 
+ 
  
